@@ -75,5 +75,8 @@
     <Image Include="n-Body_Problem_2D.ico">
       <Filter>Ressourcendateien</Filter>
     </Image>
+    <Image Include="..\..\..\..\..\Downloads\n-Körper.png">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
   </ItemGroup>
 </Project>

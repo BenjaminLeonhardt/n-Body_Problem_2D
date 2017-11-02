@@ -38,30 +38,35 @@ void nproblem_thread(bool& run) {
 	/*********************************************************************************************************
 	
 	//Initialisierung der N-Bodys hier konnen nach belieben Bodys hinzugefügt werden
+
+	Konstruktor der Bodys ist:  Vector mit X,Y koordinaten
+								Vector mit geschwindikteitsangaben pro iteration
+								Double für die Gravitation
 	
 	*********************************************************************************************************/
 
 	vector<Body> nbodys;
-	nbodys.push_back(Body(Vector2D(50, 620), Vector2D(0, -2), 0.2));
-	nbodys.push_back(Body(Vector2D(45, 615), Vector2D(0, 2.0), 0.2));
-	nbodys.push_back(Body(Vector2D(845, 263), Vector2D(1.5, 2.0), 0.2));
+	/*nbodys.push_back(Body(Vector2D(500, 620), Vector2D(0, -2), 0.1));
+	nbodys.push_back(Body(Vector2D(450, 615), Vector2D(0, 2.0), 0.1));
+	nbodys.push_back(Body(Vector2D(845, 263), Vector2D(1.5, 2.0), 0.1));
+
 	nbodys.push_back(Body(Vector2D(50, 380), Vector2D(0, 2),0.2));
 	nbodys.push_back(Body(Vector2D(500, 500), Vector2D(0, 2), 0.2));
 
 	nbodys.push_back(Body(Vector2D(150, 250), Vector2D(1.8, 0), 0.2));
 	nbodys.push_back(Body(Vector2D(850, 900), Vector2D(0, 2.7), 0.2));
 
-	/*nbodys.push_back(Body(Vector2D(150, 550), Vector2D(1.5, 0.5), 0.1));
+	nbodys.push_back(Body(Vector2D(150, 550), Vector2D(1.5, 0.5), 0.1));
 	nbodys.push_back(Body(Vector2D(250, 250), Vector2D(-0.5, 0), 0.03));
 	nbodys.push_back(Body(Vector2D(850, 850), Vector2D(0, -1.2), 0.03));
 	nbodys.push_back(Body(Vector2D(150, 850), Vector2D(0, 0.2), 0.03));
 	nbodys.push_back(Body(Vector2D(850, 150), Vector2D(-0.3, 0.2), 0.03));
 	nbodys.push_back(Body(Vector2D(150, 150), Vector2D(-0.2, 0), 0.03));*/
 
-	for (int i = 0; i < 15; i++) {
-		for (int j = 0; j < 15; j++) {
-			//nbodys.push_back(Body(Vector2D(i * 100, j * 100), Vector2D(0, 0), 0.01));
-			nbodys.push_back(Body(Vector2D(i * 100, j * 100), Vector2D(float(rand()%10)/10.f, float(rand() % 10) / 10.f), 0.01));
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			//nbodys.push_back(Body(Vector2D(i * 50, j * 50), Vector2D(0, 0), 0.01));
+			nbodys.push_back(Body(Vector2D(i * 50, j * 50), Vector2D(float(rand()%10)/10.f, float(rand() % 10) / 10.f), 0.01));
 			
 		}
 	}
@@ -74,6 +79,7 @@ void nproblem_thread(bool& run) {
 	Vector2D gravitationsrichtungGesamt;
 	Vector2D posNeu;
 	Vector2D richtung;
+	double gravitationskonstante = 1.0; // Nicht korrekt laut lehrbuch!!!! richtiger wert ist: 6.67408 * pow(10,-31)
 
 	double farbeR = 0.0;
 	double farbeG = 0.0;
@@ -100,7 +106,8 @@ void nproblem_thread(bool& run) {
 					abstandZwischenBodys.gegenkatete = vector_i_j.y;
 					abstandZwischenBodys.hypotenuseBerechnen();
 					if (abstandZwischenBodys.hypotenuse != 0) {
-						stauchungsVerhaeltnis = float(nbodys[j].anziehung) / float(abstandZwischenBodys.hypotenuse);
+						//stauchungsVerhaeltnis = float(nbodys[j].anziehung) / float(abstandZwischenBodys.hypotenuse);
+						stauchungsVerhaeltnis = gravitationskonstante* (float(nbodys[i].anziehung*nbodys[j].anziehung) / float(abstandZwischenBodys.hypotenuse*abstandZwischenBodys.hypotenuse));
 					}
 					else {
 						stauchungsVerhaeltnis = 1.0;
