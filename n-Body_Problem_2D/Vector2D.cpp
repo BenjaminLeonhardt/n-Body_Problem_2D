@@ -13,9 +13,23 @@ Vector2D::Vector2D(double x, double y) {
 Vector2D::~Vector2D(){
 }
 
-Vector2D& Vector2D::operator+=(const Vector2D &v2) {
-	this->x += v2.x;
-	this->y += v2.y;
+Vector2D& Vector2D::operator+=(Vector2D &v2) {
+	double xLokal= this->x + v2.x;
+	double yLokal=this->y + v2.y;
+	if (xLokal > 1920) {
+		xLokal -= 1920;
+	}
+	else if (xLokal < 0) {
+		xLokal += 1920;
+	}
+	if (yLokal > 1080) {
+		yLokal -= 1080;
+	}
+	else if (yLokal < 0) {
+		yLokal += 1080;
+	}
+	this->x = xLokal;
+	this->y = yLokal;
 	return *this;
 };
 

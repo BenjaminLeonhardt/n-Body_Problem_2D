@@ -46,27 +46,37 @@ void nproblem_thread(bool& run) {
 	*********************************************************************************************************/
 
 	vector<Body> nbodys;
-	/*nbodys.push_back(Body(Vector2D(500, 620), Vector2D(0, -2), 0.1));
-	nbodys.push_back(Body(Vector2D(450, 615), Vector2D(0, 2.0), 0.1));
-	nbodys.push_back(Body(Vector2D(845, 263), Vector2D(1.5, 2.0), 0.1));
+	nbodys.push_back(Body(Vector2D(1050, 500), Vector2D(0, -0.2), 0.2));
+	nbodys.push_back(Body(Vector2D(1000, 500), Vector2D(0, 0), 0.5));
+	nbodys.push_back(Body(Vector2D(950, 500), Vector2D(0, 0.2), 0.2));
 
-	nbodys.push_back(Body(Vector2D(50, 380), Vector2D(0, 2),0.2));
-	nbodys.push_back(Body(Vector2D(500, 500), Vector2D(0, 2), 0.2));
+	nbodys.push_back(Body(Vector2D(1350, 900), Vector2D(0, -0.2), 0.2));
+	nbodys.push_back(Body(Vector2D(1300, 900), Vector2D(0, 0), 0.5));
+	nbodys.push_back(Body(Vector2D(1250, 900), Vector2D(0, 0.2), 0.2));
 
-	nbodys.push_back(Body(Vector2D(150, 250), Vector2D(1.8, 0), 0.2));
-	nbodys.push_back(Body(Vector2D(850, 900), Vector2D(0, 2.7), 0.2));
+	nbodys.push_back(Body(Vector2D(1050, 200), Vector2D(0, -0.2), 0.2));
+	nbodys.push_back(Body(Vector2D(1000, 200), Vector2D(0, 0), 0.5));
+	nbodys.push_back(Body(Vector2D(950, 200), Vector2D(0, 0.2), 0.2));
+	//nbodys.push_back(Body(Vector2D(650, 653), Vector2D(0, -5), 0.5));
 
-	nbodys.push_back(Body(Vector2D(150, 550), Vector2D(1.5, 0.5), 0.1));
-	nbodys.push_back(Body(Vector2D(250, 250), Vector2D(-0.5, 0), 0.03));
-	nbodys.push_back(Body(Vector2D(850, 850), Vector2D(0, -1.2), 0.03));
-	nbodys.push_back(Body(Vector2D(150, 850), Vector2D(0, 0.2), 0.03));
-	nbodys.push_back(Body(Vector2D(850, 150), Vector2D(-0.3, 0.2), 0.03));
-	nbodys.push_back(Body(Vector2D(150, 150), Vector2D(-0.2, 0), 0.03));*/
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			//nbodys.push_back(Body(Vector2D(i * 50, j * 50), Vector2D(0, 0), 0.01));
-			nbodys.push_back(Body(Vector2D(i * 50, j * 50), Vector2D(float(rand()%10)/10.f, float(rand() % 10) / 10.f), 0.01));
+	/*nbodys.push_back(Body(Vector2D(50, 380), Vector2D(0, 0.2),0.2));
+	nbodys.push_back(Body(Vector2D(1000, 500), Vector2D(0, 0), 5));
+
+	nbodys.push_back(Body(Vector2D(150, 250), Vector2D(0.8, 0), 0.2));
+	nbodys.push_back(Body(Vector2D(850, 900), Vector2D(0, 0.7), 0.2));
+
+	nbodys.push_back(Body(Vector2D(150, 550), Vector2D(0.2, 0.1), 0.1));
+	nbodys.push_back(Body(Vector2D(250, 250), Vector2D(-0.1, 0), 0.3));
+	nbodys.push_back(Body(Vector2D(850, 850), Vector2D(0, -0.2), 0.3));
+	nbodys.push_back(Body(Vector2D(150, 850), Vector2D(0, 0.2), 0.3));
+	nbodys.push_back(Body(Vector2D(850, 150), Vector2D(-0.3, 0.2), 0.3));
+	nbodys.push_back(Body(Vector2D(150, 150), Vector2D(-0.2, 0), 0.3));/**/
+
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 20; j++) {
+			//nbodys.push_back(Body(Vector2D((i * 50)+805, (j * 50)+270), Vector2D(0, 0), 0.5));
+			nbodys.push_back(Body(Vector2D((i * 50)+ float(rand() % 2000) , (j * 50) + float(rand() % 1000)), Vector2D(0.0/*float(rand()%10)/10.f, float(rand() % 10) / 10.f)*/,0.0), 0.1));
 			
 		}
 	}
@@ -117,242 +127,13 @@ void nproblem_thread(bool& run) {
 					gravitationsrichtungGesamt += gravitationsrichtung;
 				}
 			}
-			//Body i verschieben
+			//gravitationsrichtung auf bewegungsrichtung addieren
 			nbodys[i].position += gravitationsrichtungGesamt;
-
-			//Richtung für eigene Geschwindigkeit berechnen
-			//Neuen Vector zwischen beiden Bodys ermitteln
-			vector_i_j = gravitationsrichtungGesamt;
-			Vector2D bewegungsRichtungAlt = nbodys[i].position - nbodys[i].positionAlt;
-			//um 90 Grad drehen 
-			//Die viele Abfragen sind für die umrundungen einmal mit und einmal gegen den Uhrzeigersinn
-			if (vector_i_j.x >= 0 && vector_i_j.y >= 0) {
-				if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					Geschwindigkeitsrichtung.x = vector_i_j.y;
-					Geschwindigkeitsrichtung.y = -vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					Geschwindigkeitsrichtung.x = -vector_i_j.y;
-					Geschwindigkeitsrichtung.y = vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					Geschwindigkeitsrichtung.x = vector_i_j.y;
-					Geschwindigkeitsrichtung.y = -vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					double bewX = nbodys[i].bewegungsRichtung.x;
-					double bewY = nbodys[i].bewegungsRichtung.y;
-				
-					if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y < 0) {
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}else if (nbodys[i].bewegungsRichtung.x > 0) {
-						bewX = bewX*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}
-					else if (nbodys[i].bewegungsRichtung.y > 0) {
-						bewY = bewX*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}									
-				}
-			}
-			else if (vector_i_j.x < 0 && vector_i_j.y >= 0) {
-				if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					Geschwindigkeitsrichtung.x = vector_i_j.y;
-					Geschwindigkeitsrichtung.y = -vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					Geschwindigkeitsrichtung.x = vector_i_j.y;
-					Geschwindigkeitsrichtung.y = -vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					double bewX = nbodys[i].bewegungsRichtung.x;
-					double bewY = nbodys[i].bewegungsRichtung.y;
-					if (nbodys[i].bewegungsRichtung.x < 0) {
-						bewX = bewX*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}
-					else if (nbodys[i].bewegungsRichtung.y < 0) {
-						bewY = bewY*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}
-					else if (nbodys[i].bewegungsRichtung.x > 0 && nbodys[i].bewegungsRichtung.y > 0) {
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-					}
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					Geschwindigkeitsrichtung.x = -vector_i_j.y;
-					Geschwindigkeitsrichtung.y = vector_i_j.x;
-				}
-			}
-			else if (vector_i_j.x >= 0 && vector_i_j.y < 0) {
-				if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					Geschwindigkeitsrichtung.x = -vector_i_j.y;
-					Geschwindigkeitsrichtung.y = vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					double bewX = nbodys[i].bewegungsRichtung.x;
-					double bewY = nbodys[i].bewegungsRichtung.y;
-
-					if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y < 0) {
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}
-					else if (nbodys[i].bewegungsRichtung.x > 0) {
-						bewY = bewY*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}
-					else if (nbodys[i].bewegungsRichtung.y > 0) {
-						bewX = bewX*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}
-				}
-				else if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					//11
-					Geschwindigkeitsrichtung.x = -vector_i_j.y;
-					Geschwindigkeitsrichtung.y = vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					//12
-					Geschwindigkeitsrichtung.x = vector_i_j.y;
-					Geschwindigkeitsrichtung.y = -vector_i_j.x;
-				}
-			}
-			else if (vector_i_j.x < 0 && vector_i_j.y < 0) {
-				if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					//13
-					double bewX = nbodys[i].bewegungsRichtung.x;
-					double bewY = nbodys[i].bewegungsRichtung.y;
-					
-					if (nbodys[i].bewegungsRichtung.x < 0) {
-						bewX = bewX*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-					}
-					else if (nbodys[i].bewegungsRichtung.y<0) {
-						bewY = bewY*(-1);
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-					}
-					else if (nbodys[i].bewegungsRichtung.x > 0 && nbodys[i].bewegungsRichtung.y > 0) {
-						if (bewX < bewY) {
-							Geschwindigkeitsrichtung.x = vector_i_j.y;
-							Geschwindigkeitsrichtung.y = -vector_i_j.x;
-						}
-						else {
-							Geschwindigkeitsrichtung.x = -vector_i_j.y;
-							Geschwindigkeitsrichtung.y = vector_i_j.x;
-						}
-					}					
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y >= 0) {
-					//14
-					Geschwindigkeitsrichtung.x = vector_i_j.y;
-					Geschwindigkeitsrichtung.y = -vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x >= 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					//15
-					Geschwindigkeitsrichtung.x = -vector_i_j.y;
-					Geschwindigkeitsrichtung.y = vector_i_j.x;
-				}
-				else if (nbodys[i].bewegungsRichtung.x < 0 && nbodys[i].bewegungsRichtung.y < 0) {
-					//16
-					Geschwindigkeitsrichtung.x = -vector_i_j.y;
-					Geschwindigkeitsrichtung.y = vector_i_j.x;
-				}
-			}
-
-			//auf Gravitationslängeskalieren
-			abstandZwischenBodys.ankatete = vector_i_j.x;
-			abstandZwischenBodys.gegenkatete = vector_i_j.y;
-			abstandZwischenBodys.hypotenuseBerechnen();
-			geschwindigkeit.ankatete = nbodys[i].bewegungsRichtung.x;
-			geschwindigkeit.gegenkatete = nbodys[i].bewegungsRichtung.y;
-			geschwindigkeit.hypotenuseBerechnen();
-			if (abstandZwischenBodys.hypotenuse != 0) {
-				stauchungsVerhaeltnis = float(geschwindigkeit.hypotenuse) / float(abstandZwischenBodys.hypotenuse);
-			} else {
-				stauchungsVerhaeltnis = 1;
-			}
-			Geschwindigkeitsrichtung.x = Geschwindigkeitsrichtung.x*stauchungsVerhaeltnis;
-			Geschwindigkeitsrichtung.y = Geschwindigkeitsrichtung.y*stauchungsVerhaeltnis;
-			nbodys[i].bewegungsRichtung = Geschwindigkeitsrichtung;
-
-			//Eigene Geschwindigkeit bewegen
+			nbodys[i].bewegungsRichtung += gravitationsrichtungGesamt;
+			//Body i verschieben
 			nbodys[i].position += nbodys[i].bewegungsRichtung;
+
+
 			lockGraph.lock();
 			if (run) {
 				graphics->DrawCircle(nbodys[i].position.x, nbodys[i].position.y, 2.0f, 0.8f, 0.8f, 0.8f, 10.0f);
@@ -380,9 +161,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 	windowclass.style = CS_HREDRAW | CS_VREDRAW;
 
 	RegisterClassEx(&windowclass);
-	RECT rect = { 0,0,1000,1000 };
+	RECT rect = { 0,0,1920,1000 };
 	AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, WS_EX_OVERLAPPEDWINDOW);
-	HWND windowshandle = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MainWindow", L"DirectX", WS_OVERLAPPEDWINDOW, -1300, 0,
+	HWND windowshandle = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MainWindow", L"DirectX", WS_OVERLAPPEDWINDOW, 0, 0,
 		rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, hInstance, 0);
 
 	if (!windowshandle) return -1;
