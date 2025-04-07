@@ -11,4 +11,4 @@ Benötigt wird auch DirectX für die grafische Ausgabe.
 Um verschiedene Einstellungen von Planetenkonstellationen testen zu können, kann in der n-Body_Problem.cpp
 in Zeile 44 bis 69 änderungen getätigt werden.
 
-![N-Körper](./n-Körper.png "N-Körper")  test
+![N-Körper](./n-Körper.png "N-Körper")
